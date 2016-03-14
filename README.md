@@ -24,22 +24,27 @@ sudo reboot
 ```
 
 ## Run the camera
+
 (Optional)
+```bash
 sudo pkill uv4l 
-
+```
+```bash
 sudo uv4l -nopreview --auto-video_nr --driver raspicam --encoding mjpeg --width 640 --height 480 --rotation 90 --framerate 2 --server-option '--port=9090' --server-option '--max-queued-connections=10' --server-option '--max-streams=2' --server-option '--max-threads=10'
+```
 
-Notes:
+_Notes:_
 
 The --port=9090 is the local IP port. You can use any port you like.
 
 The --max-streams=25 is the maximum simultaneous streams.
 
-## Ensure the service is run on Pi startup (Jessy uses Systemd so this will throw an error)
+## Ensure the service is run on Pi startup (Jessie uses Systemd so this will throw an error)
 ```bash
 /etc/init.d/isaaccam
 ```
 
+### init.d
 ```bash
 #!/bin/bash
 
@@ -83,4 +88,31 @@ https://www.debian-administration.org/article/28/Making_scripts_run_at_boot_time
 
 update-rc.d isaaccam defaults
 update-rc.d -f isaaccam remove
+
+### systemd install
+
+```bash
+sudo nano /etc/systemd/system/isaaccam.service
+```
+
+```bash
+[Unit]
+Description=TightVNC remote desktop server
+After=sshd.service
+
+[Service]
+Type=dbus
+ExecStart=/usr/bin/isaaccam :1
+User=pi
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo chown root:root /etc/systemd/system/isaaccam.service
+sudo chmod 755 /etc/systemd/system/isaaccam.service
+sudo systemctl start isaaccam.service
+```
 
