@@ -1,30 +1,29 @@
+# To stream video from aRaspberry Pi + Pi Camera use UV4L
+
+## Install the drive onto the Pi
+
 To install the uv4l driver, open the terminal and run the following commands:
-
+```bash
 wget http://www.linux-projects.org/listing/uv4l_repo/lrkey.asc && sudo apt-key add ./lrkey.asc
-
+```
 Add the following line to the file /etc/apt/sources.list :
 
-sudo nano /etc/apt/sources.list
-
-deb http://www.linux-projects.org/listing/uv4l_repo/raspbian/ wheezy main
-
-sudo apt-get update upgrade
-
-sudo apt-get install uv4l-raspicam-extras uv4l-server uv4l-uvc uv4l-xscreen uv4l-mjpegstream
-
-OR
-
-$ sudo apt-get install uv4l uv4l-raspicam
-$ sudo apt-get install uv4l-raspicam-extras
-$ sudo apt-get install uv4l-server
-$ sudo apt-get install uv4l-uvc
-$ sudo apt-get install uv4l-xscreen
-$ sudo apt-get install uv4l-mjpegstream
-
-$ sudo reboot
-
 ```bash
-#### Run the camera
+sudo nano /etc/apt/sources.list
+```
+Enter the following;
+```bash
+deb http://www.linux-projects.org/listing/uv4l_repo/raspbian/ wheezy main
+```
+```bash
+sudo apt-get update upgrade
+```
+```bash
+sudo apt-get install uv4l-raspicam-extras uv4l-server uv4l-uvc uv4l-xscreen uv4l-mjpegstream
+sudo reboot
+```
+
+## Run the camera
 (Optional)
 sudo pkill uv4l 
 
@@ -36,8 +35,12 @@ The --port=9090 is the local IP port. You can use any port you like.
 
 The --max-streams=25 is the maximum simultaneous streams.
 
+## Ensure the service is run on Pi startup (Jessy uses Systemd so this will throw an error)
+```bash
 /etc/init.d/isaaccam
+```
 
+```bash
 #!/bin/bash
 
 NAME=uv4l
