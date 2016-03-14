@@ -1,4 +1,4 @@
-# To stream video from a Raspberry Pi + Pi Camera use UV4L
+# To stream video from a Raspberry Pi + Pi Camera using UV4L
 
 ## Install the drive onto the Pi
 
@@ -6,7 +6,7 @@ To install the uv4l driver, open the terminal and run the following commands:
 ```bash
 wget http://www.linux-projects.org/listing/uv4l_repo/lrkey.asc && sudo apt-key add ./lrkey.asc
 ```
-Add the following line to the file /etc/apt/sources.list :
+Add the following line to the file */etc/apt/sources.list*:
 
 ```bash
 sudo nano /etc/apt/sources.list
@@ -25,7 +25,7 @@ sudo reboot
 
 ## Run the camera
 
-(Optional)
+_(Optional)_
 ```bash
 sudo pkill uv4l 
 ```
@@ -33,12 +33,12 @@ sudo pkill uv4l
 sudo uv4l -nopreview --auto-video_nr --driver raspicam --encoding mjpeg --width 640 --height 480 --rotation 90 --framerate 2 --server-option '--port=9090' --server-option '--max-queued-connections=10' --server-option '--max-streams=2' --server-option '--max-threads=10'
 ```
 
-_Notes:_
+*Notes:*
 
-The --port=9090 is the local IP port. You can use any port you like.
-The --max-streams=25 is the maximum simultaneous streams.
+* --port=9090 is the local IP port. You can use any port you like.
+* --max-streams=25 is the maximum simultaneous streams.
 
-## Ensure the service is run on Pi startup (Jessie uses Systemd so this will throw an error)
+## Ensure the service is run on Pi startup (Jessie uses Systemd!)
 ```bash
 /etc/init.d/isaaccam
 ```
