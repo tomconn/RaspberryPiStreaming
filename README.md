@@ -1,4 +1,4 @@
-# To stream video from aRaspberry Pi + Pi Camera use UV4L
+# To stream video from a Raspberry Pi + Pi Camera use UV4L
 
 ## Install the drive onto the Pi
 
@@ -36,7 +36,6 @@ sudo uv4l -nopreview --auto-video_nr --driver raspicam --encoding mjpeg --width 
 _Notes:_
 
 The --port=9090 is the local IP port. You can use any port you like.
-
 The --max-streams=25 is the maximum simultaneous streams.
 
 ## Ensure the service is run on Pi startup (Jessie uses Systemd so this will throw an error)
@@ -70,7 +69,8 @@ kill_pid () {
 case "$1" in
   start|add)
     kill_pid
-    $UV4L -nopreview --auto-video_nr --driver raspicam --encoding mjpeg --width 340 --height 420 --rotation 90 --framerate 5 --server-option '--port=9090' --server-option '--max-queued-connections=5' --server-option '--max-streams=5' --server-option '--max-threads=10'    RET=$?
+    $UV4L -nopreview --auto-video_nr --driver raspicam --encoding mjpeg --width 340 --height 420 --rotation 90 --framerate 5 --server-option '--port=9090' --server-option '--max-queued-connections=5' --server-option '--max-streams=5' --server-option '--max-threads=10'    
+    RET=$?
     ;;
   stop|remove)
     kill_pid
@@ -84,10 +84,12 @@ esac
 exit $RET
 ```
 
-https://www.debian-administration.org/article/28/Making_scripts_run_at_boot_time_with_Debian
+[Debian init.d scripts howto](https://www.debian-administration.org/article/28/Making_scripts_run_at_boot_time_with_Debian)
 
+```bash
 update-rc.d isaaccam defaults
 update-rc.d -f isaaccam remove
+```
 
 ### systemd install
 
@@ -97,12 +99,12 @@ sudo nano /etc/systemd/system/isaaccam.service
 
 ```bash
 [Unit]
-Description=TightVNC remote desktop server
+Description=uv4l remote server
 After=sshd.service
 
 [Service]
 Type=dbus
-ExecStart=/usr/bin/isaaccam :1
+ExecStart=/usr/bin/uv4l -nopreview --auto-video_nr --driver raspicam --encoding mjpeg --width 340 --height 420 --rotation 90 --framerate 5 --server-option '--port=9090' --server-option '--max-queued-connections=5' --server-option '--max-streams=5' --server-option '--max-threads=10'
 User=pi
 Type=forking
 
