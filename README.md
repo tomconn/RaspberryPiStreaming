@@ -23,6 +23,7 @@ $ sudo apt-get install uv4l-mjpegstream
 
 $ sudo reboot
 
+```bash
 #### Run the camera
 (Optional)
 sudo pkill uv4l 
@@ -72,8 +73,8 @@ case "$1" in
     RET=1
     ;;
 esac
-
 exit $RET
+```
 
 https://www.debian-administration.org/article/28/Making_scripts_run_at_boot_time_with_Debian
 
